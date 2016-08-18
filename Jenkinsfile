@@ -5,15 +5,6 @@ def mvn(GString args) {
     sh "${tool 'Maven 3'}/bin/mvn ${args}"
 }
 
-def mvnCleanVerify(ignoreTestFailures = true) {
-    mvn "-B ${ignoreTestFailures?:'-Dmaven.test.failure.ignore'} clean verify"
-}
-
-def sonarAnalyse() {
-    mvn "sonar:sonar -Dsonar.host.url=${env.SONAR_HOST_URL}"
-}
-
-
 
 
 //------------------
@@ -23,7 +14,7 @@ stage 'Build'
 
 node {
     checkout scm
-    tools.mvnCleanVerify()
+    mvn "-B ${ignoreTestFailures?:'-Dmaven.test.failure.ignore'} clean verify"
 
     archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
     //step([$class: 'JUnitResultArchiver', testResults: 'target/surefire-reports/TEST-*.xml'])
@@ -36,7 +27,7 @@ stage 'Code Quality'
 node {
     parallel(
         'sonarqube': {
-            tools.sonarAnalyse()
+            mvn "sonar:sonar -Dsonar.host.url=${env.SONAR_HOST_URL}"
         }
     )
 }
