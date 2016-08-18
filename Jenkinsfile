@@ -17,7 +17,6 @@ node {
     mvn "-B ${if (ignoreTestFailures) '-Dmaven.test.failure.ignore'} clean verify"
 
     archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
-    //step([$class: 'JUnitResultArchiver', testResults: 'target/surefire-reports/TEST-*.xml'])
     junit '**/target/surefire-reports/TEST-*.xml'
 }
 
