@@ -21,11 +21,7 @@ def sonarAnalyse() {
 
 stage 'Build'
 
-def tools
-
 node {
-    tools = load 'tools.groovy'
-
     checkout scm
     tools.mvnCleanVerify()
 
