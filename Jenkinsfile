@@ -30,7 +30,8 @@ node {
                 mvn "sonar:sonar -Dsonar.host.url=$host"
             },
             'owasp-dependency-check': {
-                mvn "mvn org.owasp:dependency-check-maven:1.4.2:check"
+                def version = '1.4.2'
+                mvn "mvn org.owasp:dependency-check-maven:$version:check"
                 publishHTML target: [
                         reportDir  : 'target',
                         reportFiles: 'dependency-check-report.html',
