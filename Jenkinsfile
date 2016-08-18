@@ -12,6 +12,8 @@ def mvn(GString args) {
 
 stage 'Build'
 
+def ignoreTestFailures = true
+
 node {
     checkout scm
     mvn "-B ${ignoreTestFailures?:'-Dmaven.test.failure.ignore'} clean verify"
