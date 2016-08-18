@@ -1,11 +1,9 @@
 //------------------
-// TOOLS
+// HELPERS
 
 def mvn(GString args) {
     sh "${tool 'Maven 3'}/bin/mvn ${args}"
 }
-
-
 
 //------------------
 // PIPELINE
@@ -28,13 +26,20 @@ stage 'Code Quality'
 
 node {
     parallel(
-        'sonarqube': {
-            def host = 'http://localhost:9000'
-            mvn "sonar:sonar -Dsonar.host.url=$host"
-        }
+            'sonarqube': {
+                def host = 'http://localhost:9000'
+                mvn "sonar:sonar -Dsonar.host.url=$host"
+            },
+            'owasp-dependency-check': {
+                mvn "mvn org.owasp:dependency-check-maven:1.4.2:check"
+                publishHTML target: [
+                        reportDir  : 'target',
+                        reportFiles: 'dependency-check-report.html',
+                        reportName : 'OWASP Dependency Check'
+                ]
+            }
     )
 }
-
 
 //------------------
 
