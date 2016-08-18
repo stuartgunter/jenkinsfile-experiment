@@ -30,7 +30,7 @@ node {
     parallel(
         'sonarqube': {
             def sonarqubeScannerHome = tool name: 'Sonar', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
-            sh "${sonarqubeScannerHome}/bin/sonar-scanner -e -Dsonar.host.url=${env.SONAR_HOST_URL}"
+            sh "${sonarqubeScannerHome}/bin/sonar-scanner -e -Dsonar.host.url=http://localhost:9000"
         }
     )
 }
