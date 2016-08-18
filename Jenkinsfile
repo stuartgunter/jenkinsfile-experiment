@@ -26,11 +26,10 @@ node {
 //------------------
 stage 'Code Quality'
 
-def sonarqubeScannerHome = tool name: 'SonarQubeScanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
-
 node {
     parallel(
         'sonarqube': {
+            def sonarqubeScannerHome = tool name: 'SonarQubeScanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
             sh "${sonarqubeScannerHome}/bin/sonar-scanner -e -Dsonar.host.url=${env.SONAR_HOST_URL}"
         }
     )
