@@ -31,7 +31,7 @@ node {
             },
             'owasp-dependency-check': {
                 def version = '1.4.2'
-                mvn "mvn org.owasp:dependency-check-maven:$version:check"
+                mvn "org.owasp:dependency-check-maven:$version:check"
                 publishHTML target: [
                         reportDir  : 'target',
                         reportFiles: 'dependency-check-report.html',
